@@ -1,10 +1,10 @@
-var ee=`<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RenewHelper v2.2.8</title>
+    <title>RenewHelper ${APP_VERSION}</title>
     <link rel="icon" href="data:image/svg+xml,%3Csvg width='56' height='56' viewBox='0 0 100 100' fill='none' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'%3E%3Cdefs%3E%3ClinearGradient id='c1' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%232563eb'/%3E%3Cstop offset='100%25' style='stop-color:%2322d3ee'/%3E%3C/linearGradient%3E%3ClinearGradient id='h1' x1='108.5' y1='7.8' x2='122.4' y2='21.7' gradientTransform='matrix(0,0.433,-2.309,0,99.8,-0.06)' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0%25' style='stop-color:%232563eb'/%3E%3Cstop offset='100%25' style='stop-color:%2322d3ee'/%3E%3C/linearGradient%3E%3ClinearGradient id='b1' x1='30.4' y1='54.5' x2='30.4' y2='14.8' gradientTransform='scale(0.694,1.441)' gradientUnits='userSpaceOnUse'%3E%3Cstop offset='0' style='stop-color:%2326afe1;stop-opacity:1'/%3E%3Cstop offset='1' style='stop-color:%23ee5a22;stop-opacity:0.7'/%3E%3C/linearGradient%3E%3ClinearGradient id='b2' xlink:href='%23b1' x1='16' y1='47.2' x2='71.3' y2='47.2' gradientUnits='userSpaceOnUse'/%3E%3Cfilter id='f1' x='-20%25' y='-20%25' width='140%25' height='140%25'%3E%3CfeGaussianBlur in='SourceGraphic' stdDeviation='1.5' result='blur'/%3E%3CfeMerge%3E%3CfeMergeNode in='blur'/%3E%3CfeMergeNode in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%3C/defs%3E%3Cpath d='M50 5 L93 30 V70 L50 95 L7 70 V30 Z' stroke='url(%23c1)' stroke-width='4' fill='none' filter='url(%23f1)' stroke-linejoin='round'/%3E%3Cpath d='M7 30 L30 50 M93 30 L70 50 M7 70 L30 50 M93 70 L70 50' stroke='url(%23c1)' stroke-width='1' opacity='0.3'/%3E%3Cg filter='url(%23f1)'%3E%3Ccircle cx='50' cy='50' r='38' stroke='url(%23c1)' stroke-width='1' opacity='0.2' stroke-dasharray='3 3'/%3E%3Ccircle cx='50' cy='50' r='26' stroke='url(%23c1)' stroke-width='3' fill='none'/%3E%3Cpath d='M50 18 V24 M82 50 H76 M50 82 V76 M18 50 H24 M72 28 L67 33 M72 72 L67 67 M28 72 L33 67 M28 28 L33 33' stroke='url(%23c1)' stroke-width='4' stroke-linecap='round'/%3E%3C/g%3E%3Cg filter='url(%23f1)'%3E%3Ccircle cx='50' cy='50' r='5' fill='url(%23c1)'/%3E%3Cpath d='M50 50 L47 20 L50 18 L53 20 Z' fill='url(%23c1)'/%3E%3Cpath d='M47 20 L50 12 L53 20 L50 18 Z' fill='white'/%3E%3Cpath d='m 49.8,49.9 30,-3 2,3 -2,3 z' style='fill:url(%23h1)'/%3E%3Cpath d='M 45.1,22 C 58.7,24.2 68.3,37.4 66.1,51 63.9,64.7 50.7,74.2 37,72 30.2,71 23.9,67 20,61.2' style='fill:none;stroke:url(%23b2);stroke-width:9.75;stroke-linecap:butt' transform='matrix(-0.122,0.691,-0.691,-0.122,87.8,27.7)'/%3E%3C/g%3E%3C/svg%3E">
-    <script src="https://cdn.tailwindcss.com/3.4.1"><\/script>
+    <script src="https://cdn.tailwindcss.com/3.4.1"></script>
     <script>
         tailwind.config={
             darkMode: 'class',
@@ -15,22 +15,22 @@ var ee=`<!DOCTYPE html>
                 }
             }
         }
-    <\/script>
+    </script>
     <link href="https://fonts.loli.net/css2?family=JetBrains+Mono:wght@400;700&family=Rajdhani:wght@500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/element-plus@2.11.9/dist/index.css" />
     <link rel="stylesheet" href="https://unpkg.com/element-plus@2.11.9/theme-chalk/dark/css-vars.css">
     
-    <script src="https://unpkg.com/vue@3.5.25/dist/vue.global.prod.js"><\/script>
-    <script src="https://unpkg.com/element-plus@2.11.9/dist/index.full.min.js"><\/script>
-    <script src="https://unpkg.com/@element-plus/icons-vue@2.3.2/dist/index.iife.min.js"><\/script>
-    <script src="https://unpkg.com/element-plus@2.11.9/dist/locale/zh-cn.min.js"><\/script>
+    <script src="https://unpkg.com/vue@3.5.25/dist/vue.global.prod.js"></script>
+    <script src="https://unpkg.com/element-plus@2.11.9/dist/index.full.min.js"></script>
+    <script src="https://unpkg.com/@element-plus/icons-vue@2.3.2/dist/index.iife.min.js"></script>
+    <script src="https://unpkg.com/element-plus@2.11.9/dist/locale/zh-cn.min.js"></script>
     <script>
         window.ElementPlusIconsVue = window.ElementPlusIconsVue || window.ElementPlusIcons;
         window.onload = function() {
             if (typeof Vue === 'undefined') alert('错误：Vue 加载失败，请检查网络或更换 CDN。');
             else if (typeof ElementPlus === 'undefined') alert('错误：ElementPlus 加载失败。');
         }
-    <\/script>
+    </script>
     <style>
         :root {
             --bg-body: #f1f5f9;
@@ -909,7 +909,7 @@ var ee=`<!DOCTYPE html>
                 <div class="mt-8 py-6 text-center border-t border-slate-200/60">
                     <p class="text-[10px] text-gray-400 font-mono tracking-[0.2em] uppercase flex justify-center items-center gap-1">
                         &copy; 2025-2026 <a href="https://github.com/ieax/renewhelper" target="_blank" class="font-bold text-slate-600 hover:text-blue-600 transition-colors border-b border-dashed border-slate-300 hover:border-blue-600 pb-0.5 mx-1 decoration-0">RenewHelper</a>
-                        <span class="text-blue-500 font-bold">v2.2.8</span><span class="mx-2 opacity-30">|</span>DESIGNED BY <span class="font-bold text-slate-600">LOSTFREE</span>
+                        <span class="text-blue-500 font-bold">${APP_VERSION}</span><span class="mx-2 opacity-30">|</span>DESIGNED BY <span class="font-bold text-slate-600">LOSTFREE</span>
                     </p>
                 </div>                  
             </div>
@@ -1636,11 +1636,11 @@ var ee=`<!DOCTYPE html>
                 
                 const getChannelSummary = (ch) => {
                     if (!ch || !ch.config) return '';
-                    if (ch.type === 'telegram') return \`\${ ch.config.chatId || '?'} (\${ ch.config.token ? '***' : '' })\`;
+                    if (ch.type === 'telegram') return `${ ch.config.chatId || '?'} (${ ch.config.token ? '***' : '' })`;
                     if (ch.type === 'bark') return ch.config.server || 'Default';
                     if (ch.type === 'webhook') return ch.config.url;
-                    if (ch.type === 'ntfy') return \`\${ ch.config.topic } @\${ ch.config.server || 'ntfy.sh' } \`;
-                    if (ch.type === 'resend') return \`\${ ch.config.from } -> \${ ch.config.to } \`;
+                    if (ch.type === 'ntfy') return `${ ch.config.topic } @${ ch.config.server || 'ntfy.sh' } `;
+                    if (ch.type === 'resend') return `${ ch.config.from } -> ${ ch.config.to } `;
                     return '';
                 };
 
@@ -1721,8 +1721,8 @@ var ee=`<!DOCTYPE html>
                         });
                         const d = await r.json();
                         loadingMsg.close();
-                        if (r.ok) ElMessage.success(\`TEST OK: \${ d.msg } \`);
-                        else ElMessage.error(\`TEST FAIL: \${ d.msg } \`);
+                        if (r.ok) ElMessage.success(`TEST OK: ${ d.msg } `);
+                        else ElMessage.error(`TEST FAIL: ${ d.msg } `);
                     } catch(e) { 
                         loadingMsg.close();
                         ElMessage.error(e.message); 
@@ -1886,7 +1886,7 @@ var ee=`<!DOCTYPE html>
                                      data.bill.monthCounts[mk] = (data.bill.monthCounts[mk]||0) + 1;
                                      data.bill.years[y] = (data.bill.years[y]||0) + price;
                                      // 记录明细
-                                     addDetail('bill', mk, item, price, r.startDate, \`\${ r.startDate } -> \${ r.endDate || '?' } \`);
+                                     addDetail('bill', mk, item, price, r.startDate, `${ r.startDate } -> ${ r.endDate || '?' } `);
                                  }
                              }
                              // Operation Spending (Op Date based)
@@ -1899,7 +1899,7 @@ var ee=`<!DOCTYPE html>
                                      data.op.monthCounts[mk] = (data.op.monthCounts[mk]||0) + 1;
                                      data.op.years[y] = (data.op.years[y]||0) + price;
                                      // 记录明细
-                                     addDetail('op', mk, item, price, r.renewDate.split(' ')[0], \`\${ r.startDate || '?' } -> \${ r.endDate || '?' } \`);
+                                     addDetail('op', mk, item, price, r.renewDate.split(' ')[0], `${ r.startDate || '?' } -> ${ r.endDate || '?' } `);
                                  }
                              }
                          });
@@ -1921,7 +1921,7 @@ var ee=`<!DOCTYPE html>
                                      // 估算结束日期用于显示
                                      let legacyEnd = '?'; 
                                      // 这里简单处理，因为没有 rigorous calculation context
-                                     addDetail('bill', mk, item, price, dateStr, \`\${ dateStr } -> \${ legacyEnd } \`);
+                                     addDetail('bill', mk, item, price, dateStr, `${ dateStr } -> ${ legacyEnd } `);
                                  }
                              }
                          }
@@ -1964,7 +1964,7 @@ var ee=`<!DOCTYPE html>
                                      
                                      // 【修改 3】将预测数据加入明细
                                      // 注意：预测只有在“账单金额”模式下才有效，操作支出模式下无法预测未来的操作时间
-                                     addDetail('bill', mk, item, price, dateStr, \`\${ dateStr } -> \${ endDateStr } \`, true);
+                                     addDetail('bill', mk, item, price, dateStr, `${ dateStr } -> ${ endDateStr } `, true);
                                  }
 
                                  // 推进到下个周期
@@ -2277,11 +2277,11 @@ var ee=`<!DOCTYPE html>
                                     
                                     let msg = '';
                                     if (billInfo.length > 0 && channelCount > 0) {
-                                        msg = lang.value === 'zh' ? \`检测到 \${billInfo.length} 个项目缺少账单，\${channelCount} 个通知渠道待迁移。\` : \`Found \${billInfo.length} items lacking bills and \${channelCount} legacy channels.\`;
+                                        msg = lang.value === 'zh' ? `检测到 ${billInfo.length} 个项目缺少账单，${channelCount} 个通知渠道待迁移。` : `Found ${billInfo.length} items lacking bills and ${channelCount} legacy channels.`;
                                     } else if (billInfo.length > 0) {
-                                        msg = lang.value === 'zh' ? \`检测到 \${billInfo.length} 个项目缺少历史账单。\` : \`Found \${billInfo.length} items without history.\`;
+                                        msg = lang.value === 'zh' ? `检测到 ${billInfo.length} 个项目缺少历史账单。` : `Found ${billInfo.length} items without history.`;
                                     } else {
-                                        msg = lang.value === 'zh' ? \`检测到 \${channelCount} 个旧版通知渠道待迁移。\` : \`Found \${channelCount} legacy channels to migrate.\`;
+                                        msg = lang.value === 'zh' ? `检测到 ${channelCount} 个旧版通知渠道待迁移。` : `Found ${channelCount} legacy channels to migrate.`;
                                     }
                                     
                                     ElMessageBox.confirm(
@@ -2418,7 +2418,7 @@ var ee=`<!DOCTYPE html>
                             if (l) {
                                 const nextL = frontendCalc.addPeriod(l, Number(form.value.intervalDays), form.value.cycleUnit || 'day');
                                 const nextS = frontendCalc.l2s(nextL);
-                                endDate = \`\${nextS.year}-\${nextS.month.toString().padStart(2, '0')}-\${nextS.day.toString().padStart(2, '0')}\`;
+                                endDate = `${nextS.year}-${nextS.month.toString().padStart(2, '0')}-${nextS.day.toString().padStart(2, '0')}`;
                             }
                         } else {
                             // 公历：普通日期计算
@@ -2496,7 +2496,7 @@ var ee=`<!DOCTYPE html>
                             if (termRef.value) termRef.value.scrollTop = termRef.value.scrollHeight;
                         }
                         await new Promise(res => setTimeout(res, 200)); 
-                        displayLogs.value.push(\`[SYSTEM] \${t('msg.execFinish')}\`);
+                        displayLogs.value.push(`[SYSTEM] ${t('msg.execFinish')}`);
                         if (termRef.value) termRef.value.scrollTop = termRef.value.scrollHeight;
 
                         // ================== 【这里是修改点】 ==================
@@ -2519,7 +2519,7 @@ var ee=`<!DOCTYPE html>
                         const timeStr = new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false }).format(date).replace(', ', ' ');
                         const offsetPart = new Intl.DateTimeFormat('en-US', { timeZone: tz, timeZoneName: 'shortOffset' }).formatToParts(date).find(p => p.type === 'timeZoneName').value;
                         const utcOffset = offsetPart.replace('GMT', 'UTC');
-                        return \`\${timeStr} \${utcOffset}\`;
+                        return `${timeStr} ${utcOffset}`;
                     } catch (e) { return isoStr; }
                 };                
 
@@ -2544,7 +2544,7 @@ var ee=`<!DOCTYPE html>
                 const calendarUrl = computed(() => {
                     const origin = window.location.origin;
                     const token = settingsForm.value.calendarToken || settings.value.calendarToken || '';
-                    return token ? \`\${origin}/api/calendar.ics?token=\${token}\` : 'Save settings to generate URL...';
+                    return token ? `${origin}/api/calendar.ics?token=${token}` : 'Save settings to generate URL...';
                 });
 
                 const copyIcsUrl = () => {
@@ -2648,7 +2648,7 @@ var ee=`<!DOCTYPE html>
                                 if (l) {
                                     const nextL = frontendCalc.addPeriod(l, Number(item.intervalDays), item.cycleUnit || 'day');
                                     const nextS = frontendCalc.l2s(nextL);
-                                    endDate = \`\${nextS.year}-\${nextS.month.toString().padStart(2, '0')}-\${nextS.day.toString().padStart(2, '0')}\`;
+                                    endDate = `${nextS.year}-${nextS.month.toString().padStart(2, '0')}-${nextS.day.toString().padStart(2, '0')}`;
                                 }
                             } else {
                                 const start = new Date(startDate);
@@ -2696,9 +2696,9 @@ var ee=`<!DOCTYPE html>
                         tableKey.value++;
                         
                         const details = [];
-                        if (billCount > 0) details.push(lang.value === 'zh' ? \`- 生成 \${billCount} 个初始账单\` : \`- Generated \${billCount} initial bills\`);
-                        if (channelCount > 0) details.push(lang.value === 'zh' ? \`- 迁移 \${channelCount} 个通知渠道: \${migratedNames.join(', ')}\` : \`- Migrated \${channelCount} channels: \${migratedNames.join(', ')}\`);
-                        if (channelCount > 0) details.push(lang.value === 'zh' ? \`- 已清理旧版通知配置\` : \`- Cleaned up legacy config\`);
+                        if (billCount > 0) details.push(lang.value === 'zh' ? `- 生成 ${billCount} 个初始账单` : `- Generated ${billCount} initial bills`);
+                        if (channelCount > 0) details.push(lang.value === 'zh' ? `- 迁移 ${channelCount} 个通知渠道: ${migratedNames.join(', ')}` : `- Migrated ${channelCount} channels: ${migratedNames.join(', ')}`);
+                        if (channelCount > 0) details.push(lang.value === 'zh' ? `- 已清理旧版通知配置` : `- Cleaned up legacy config`);
                         
                         ElMessageBox.alert(
                             details.join('<br>'),
@@ -2841,9 +2841,9 @@ var ee=`<!DOCTYPE html>
 
                 const openRenew = (row) => {
                     // Helper: 格式化日期 (YYYY-MM-DD)
-                    const formatDate = (d) => \`\${d.getFullYear()}-\${(d.getMonth() + 1).toString().padStart(2, '0')}-\${d.getDate().toString().padStart(2, '0')}\`;
+                    const formatDate = (d) => `${d.getFullYear()}-${(d.getMonth() + 1).toString().padStart(2, '0')}-${d.getDate().toString().padStart(2, '0')}`;
                     // Helper: 格式化日期时间 (YYYY-MM-DD HH:mm:ss)
-                    const formatDateTime = (d) => \`\${formatDate(d)} \${d.getHours().toString().padStart(2, '0')}:\${d.getMinutes().toString().padStart(2, '0')}:\${d.getSeconds().toString().padStart(2, '0')}\`;
+                    const formatDateTime = (d) => `${formatDate(d)} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}`;
 
                     const now = new Date();
                     const opDateStr = formatDateTime(now); // 操作日期：始终为当前时间
@@ -2887,7 +2887,7 @@ var ee=`<!DOCTYPE html>
                             if (l) {
                                 const nextL = frontendCalc.addPeriod({ year: l.year, month: l.month, day: l.day, isLeap: l.isLeap }, row.intervalDays, row.cycleUnit || 'day');
                                 const nextS = frontendCalc.l2s(nextL);
-                                end = \`\${nextS.year}-\${nextS.month.toString().padStart(2, '0')}-\${nextS.day.toString().padStart(2, '0')}\`;
+                                end = `${nextS.year}-${nextS.month.toString().padStart(2, '0')}-${nextS.day.toString().padStart(2, '0')}`;
                             }
                         } 
                         // 公历计算逻辑
@@ -3425,15 +3425,6 @@ var ee=`<!DOCTYPE html>
             app.component(key, component);
         }
         app.mount('#app');
-    <\/script>
+    </script>
 </body>
-</html>`;var oe="v2.2.8",ie="https://api.frankfurter.dev/v1/latest?base=",G=new Map,D={info:[19416,19168,42352,21717,53856,55632,91476,22176,39632,21970,19168,42422,42192,53840,119381,46400,54944,44450,38320,84343,18800,42160,46261,27216,27968,109396,11104,38256,21234,18800,25958,54432,59984,28309,23248,11104,100067,37600,116951,51536,54432,120998,46416,22176,107956,9680,37584,53938,43344,46423,27808,46416,86869,19872,42416,83315,21168,43432,59728,27296,44710,43856,19296,43748,42352,21088,62051,55632,23383,22176,38608,19925,19152,42192,54484,53840,54616,46400,46752,103846,38320,18864,43380,42160,45690,27216,27968,44870,43872,38256,19189,18800,25776,29859,59984,27480,21952,43872,38613,37600,51552,55636,54432,55888,30034,22176,43959,9680,37584,51893,43344,46240,47780,44368,21977,19360,42416,86390,21168,43312,31060,27296,44368,23378,19296,42726,42208,53856,60005,54576,23200,30371,38608,19415,19152,42192,118966,53840,54560,56645,46496,22224,21938,18864,42359,42160,43600,111189,27936,44448,84835,37744,18936,18800,25776,92326,59984,27424,108228,43744,41696,53987,51552,54615,54432,55888,23893,22176,42704,21972,21200,43448,43344,46240,46758,44368,21920,43940,42416,21168,45683,26928,29495,27296,44368,84821,19296,42352,21732,53600,59752,54560,55968,92838,22224,19168,43476,41680,53584,62034,54560],gan:"甲乙丙丁戊己庚辛壬癸".split(""),zhi:"子丑寅卯辰巳午未申酉戌亥".split(""),months:"正二三四五六七八九十冬腊".split(""),days:"初一,初二,初三,初四,初五,初六,初七,初八,初九,初十,十一,十二,十三,十四,十五,十六,十七,十八,十九,二十,廿一,廿二,廿三,廿四,廿五,廿六,廿七,廿八,廿九,三十".split(","),lYearDays(e){let t=348;for(let n=32768;n>8;n>>=1)t+=this.info[e-1900]&n?1:0;return t+this.leapDays(e)},leapDays(e){return this.leapMonth(e)?this.info[e-1900]&65536?30:29:0},leapMonth(e){return this.info[e-1900]&15},monthDays(e,t){return this.info[e-1900]&65536>>t?30:29},solar2lunar(e,t,n){let a=`${e}-${t}-${n}`;if(G.has(a))return G.get(a);if(e<1900||e>2100)return null;let r=new Date(1900,0,31),s=new Date(e,t-1,n),l=Math.round((s-r)/864e5),o=1900,p=0;for(;o<2101&&l>0;o++)p=this.lYearDays(o),l-=p;l<0&&(l+=p,o--);let i=1,d=this.leapMonth(o),g=!1;for(;i<13&&l>0;i++)d>0&&i===d+1&&!g?(--i,g=!0,p=this.leapDays(o)):p=this.monthDays(o,i),g&&i===d+1&&(g=!1),l-=p;l===0&&d>0&&i===d+1&&(g?g=!1:(g=!0,--i)),l<0&&(l+=p,--i);let u=l+1,w=(o-4)%10,k=(o-4)%12,P=this.gan[w<0?w+10:w]+this.zhi[k<0?k+12:k],E=(g?"闰":"")+this.months[i-1]+"月",H={year:o,month:i,day:u,isLeap:g,yearStr:P,monthStr:E,dayStr:this.days[u-1],fullStr:P+"年"+E+this.days[u-1]};return G.set(a,H),H}},$={l2s(e){let t=0,{year:n,month:a,day:r,isLeap:s}=e;for(let i=1900;i<n;i++)t+=D.lYearDays(i);let l=D.leapMonth(n);for(let i=1;i<a;i++)t+=D.monthDays(n,i),l>0&&i===l&&(t+=D.leapDays(n));s&&(t+=D.monthDays(n,a)),t+=r-1;let o=new Date(Date.UTC(1900,0,31)),p=new Date(o.getTime()+t*864e5);return{year:p.getUTCFullYear(),month:p.getUTCMonth()+1,day:p.getUTCDate()}},addPeriod(e,t,n){let{year:a,month:r,day:s,isLeap:l}=e;if(n==="year"){a+=t;let i=D.leapMonth(a);l=l&&i===r}else if(n==="month"){let i=(a-1900)*12+(r-1)+t;a=Math.floor(i/12)+1900,r=i%12+1;let d=D.leapMonth(a);l=l&&d===r}else if(n==="day"){let i=this.l2s(e),d=new Date(Date.UTC(i.year,i.month-1,i.day+t));return D.solar2lunar(d.getUTCFullYear(),d.getUTCMonth()+1,d.getUTCDate())}let o=l?D.leapDays(a):D.monthDays(a,r),p=Math.min(s,o);for(;p>0;){if(this.l2s({year:a,month:r,day:p,isLeap:l}))return{year:a,month:r,day:p,isLeap:l};p--}return{year:a,month:r,day:s,isLeap:l}}},Z=class{constructor(){this.routes=[]}handle(t,n,a){this.routes.push({method:t,path:n,handler:a})}get(t,n){this.handle("GET",t,n)}post(t,n){this.handle("POST",t,n)}async route(t,n){let a=new URL(t.url),r=t.method;for(let s of this.routes)if(s.method===r&&s.path===a.pathname)return await s.handler(t,n,a);return new Response("Not Found",{status:404})}},I=(e,t=200)=>new Response(JSON.stringify(e),{status:t,headers:{"Content-Type":"application/json"}}),R=(e,t=400)=>I({code:t,msg:e},t),q={async login(e,t){let n=await v.getSettings(t);if(e===(t.AUTH_PASSWORD||"admin"))return await this.sign(n.jwtSecret);throw new Error("PASSWORD_ERROR")},async verify(e,t){let n=e.headers.get("Authorization");if(!n)return!1;let a=await v.getSettings(t);return await this.verifyToken(n.replace("Bearer ",""),a.jwtSecret)},async sign(e){let t={alg:"HS256",typ:"JWT"},n={u:"admin",iat:Math.floor(Date.now()/1e3),exp:Math.floor(Date.now()/1e3)+604800},a=this.b64(t)+"."+this.b64(n);return a+"."+await this.cryptoSign(a,e)},async verifyToken(e,t){try{let[n,a,r]=e.split(".");if(!r)return!1;let s=await this.cryptoSign(n+"."+a,t);if(!await this.safeCompare(s,r))return!1;let l=JSON.parse(atob(a.replace(/-/g,"+").replace(/_/g,"/")));return!(l.exp&&l.exp<Math.floor(Date.now()/1e3))}catch{return!1}},async cryptoSign(e,t){let n=await crypto.subtle.importKey("raw",new TextEncoder().encode(t),{name:"HMAC",hash:"SHA-256"},!1,["sign"]);return btoa(String.fromCharCode(...new Uint8Array(await crypto.subtle.sign("HMAC",n,new TextEncoder().encode(e))))).replace(/=/g,"").replace(/\+/g,"-").replace(/\//g,"_")},async safeCompare(e,t){let n=new TextEncoder,a=n.encode(e),r=n.encode(t);return a.byteLength!==r.byteLength?!1:crypto.subtle.timingSafeEqual(a,r)},genSecret(){let e=new Uint8Array(32);return crypto.getRandomValues(e),btoa(String.fromCharCode(...e)).replace(/=/g,"").replace(/\+/g,"-").replace(/\//g,"_")},b64(e){return btoa(JSON.stringify(e)).replace(/=/g,"").replace(/\+/g,"-").replace(/\//g,"_")}},v={KEYS:{SETTINGS:"SYS_CONFIG",ITEMS:"DATA_ITEMS",LOGS:"LOGS"},async getSettings(e){let t={},n=await e.RENEW_KV.get(this.KEYS.SETTINGS);if(n)try{t=JSON.parse(n)}catch{}let a={enableNotify:!0,autoDisableDays:30,language:"zh",timezone:"UTC",defaultCurrency:"CNY",jwtSecret:"",calendarToken:"",enabledChannels:[],notifyConfig:{telegram:{token:"",chatId:"",apiServer:""},bark:{server:"https://api.day.app",key:""},pushplus:{token:""},notifyx:{apiKey:""},resend:{apiKey:"",from:"",to:""},webhook:{url:""},webhook2:{url:""},webhook3:{url:""},gotify:{server:"",token:""},ntfy:{server:"https://ntfy.sh",topic:"",token:""}}};t={...a,...t},t.notifyConfig={...a.notifyConfig,...t.notifyConfig||{}};let r=!1;return t.jwtSecret||(t.jwtSecret=q.genSecret(),r=!0),t.calendarToken||(t.calendarToken=crypto.randomUUID(),r=!0),r&&await this.saveSettings(e,t),t},async saveSettings(e,t){await e.RENEW_KV.put(this.KEYS.SETTINGS,JSON.stringify(t,null,2))},async getItemsPackage(e){let t=await e.RENEW_KV.get(this.KEYS.ITEMS,{type:"text"});try{if(!t)return{items:[],version:0};let n=JSON.parse(t);return Array.isArray(n)?{items:n,version:0}:{items:n.items||[],version:n.version||0}}catch{return{items:[],version:0}}},async getItems(e){return(await this.getItemsPackage(e)).items},async saveItems(e,t,n=null,a=!1){if(!a){let l=await this.getItemsPackage(e);if(n!==null&&l.version!==n)throw new Error("VERSION_CONFLICT")}let r=Date.now(),s={items:t,version:r};return await e.RENEW_KV.put(this.KEYS.ITEMS,JSON.stringify(s,null,2)),r},async getCombined(e){let[t,n]=await Promise.all([this.getSettings(e),this.getItemsPackage(e)]);return{settings:t,items:n.items,version:n.version}},async getLogs(e){try{let t=await e.RENEW_KV.get(this.KEYS.LOGS);return t?JSON.parse(t):[]}catch{return[]}},async saveLog(e,t){try{let n=await this.getLogs(e);n.unshift(t),await e.RENEW_KV.put(this.KEYS.LOGS,JSON.stringify(n.slice(0,30)))}catch(n){console.log(`[ERR] Log save failed: ${n.message}`)}}},te=new Map,ae={async check(e,t,n){if(!t)return!0;let a=Date.now(),r=`${n}:${t}`,s=te.get(r)||0;if(a-s<1e3)return!1;te.set(r,a);let o=`RATELIMIT:${new Date().toISOString().split("T")[0]}:${n}:${t}`,p=await e.RENEW_KV.get(o);return p=p?parseInt(p):0,p>=100?!1:(await e.RENEW_KV.put(o,(p+1).toString(),{expirationTtl:86400}),!0)}},S={parseYMD(e){if(!e)return new Date;let t=e.split("-");return new Date(Date.UTC(+t[0],+t[1]-1,parseInt(t[2])))},toYMD(e){return e.toISOString().split("T")[0]},getTzToday(e){try{let t=new Intl.DateTimeFormat("en-CA",{timeZone:e||"UTC",year:"numeric",month:"2-digit",day:"2-digit"});return this.parseYMD(t.format(new Date))}catch{let n=new Date;return n.setUTCHours(0,0,0,0),n}}},W=e=>e.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;"),X={async dispatch(e,t,n){if(!e||e.length===0)return"NO_TARGET_CHANNELS";let a=[];for(let s of e)s.enable&&this.adapters[s.type]&&a.push(this.adapters[s.type](s.config,t,n).then(l=>`[${s.name}: ${l}]`).catch(l=>`[${s.name}: ERR ${l.message}]`));return a.length===0?"NO_ACTIVE_ADAPTERS":(await Promise.all(a)).join(" ")},adapters:{telegram:async(e,t,n)=>{if(!e.token||!e.chatId)return"MISSING_CONF";let a=`<b>${W(t)}</b>
-
-${W(n)}`,r=(e.apiServer||"https://api.telegram.org").replace(/\/$/,"");return(await fetch(`${r}/bot${e.token}/sendMessage`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({chat_id:e.chatId,text:a,parse_mode:"HTML"})})).ok?"OK":"FAIL"},bark:async(e,t,n)=>{if(!e.key)return"MISSING_CONF";let a=(e.server||"https://api.day.app").replace(/\/$/,"");return(await fetch(`${a}/${e.key}/${encodeURIComponent(t)}/${encodeURIComponent(n)}?group=RenewHelper`)).ok?"OK":"FAIL"},pushplus:async(e,t,n)=>{if(!e.token)return"MISSING_CONF";let a=W(n).replace(/\n/g,"<br>");return(await fetch("https://www.pushplus.plus/send",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:e.token,title:t,content:a,template:"html"})})).ok?"OK":"FAIL"},notifyx:async(e,t,n)=>{if(!e.apiKey)return"MISSING_CONF";let a="Alert",r=n.replace(/\n/g,`
-
-`);return(await fetch(`https://www.notifyx.cn/api/v1/send/${e.apiKey}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({title:t,content:r,description:a})})).ok?"OK":"FAIL"},resend:async(e,t,n)=>!e.apiKey||!e.to||!e.from?"MISSING_CONF":(await fetch("https://api.resend.com/emails",{method:"POST",headers:{Authorization:`Bearer ${e.apiKey}`,"Content-Type":"application/json"},body:JSON.stringify({from:e.from,to:e.to,subject:t,text:n})})).ok?"OK":"FAIL",webhook:J,webhook2:J,webhook3:J,gotify:async(e,t,n)=>{if(!e.server||!e.token)return"MISSING_CONF";let a=e.server.replace(/\/$/,"");return(await fetch(`${a}/message`,{method:"POST",headers:{"X-Gotify-Key":e.token,"Content-Type":"application/json"},body:JSON.stringify({title:t,message:n,priority:5})})).ok?"OK":"FAIL"},ntfy:async(e,t,n)=>{if(!e.topic)return"MISSING_CONF";let a=(e.server||"https://ntfy.sh").replace(/\/$/,""),r={Title:t};return e.token&&(r.Authorization=`Bearer ${e.token}`),(await fetch(`${a}/${e.topic}`,{method:"POST",headers:r,body:n})).ok?"OK":"FAIL"}}};async function J(e,t,n){if(!e.url)return"MISSING_CONF";try{let a={"Content-Type":"application/json"};if(e.headers)try{let l=JSON.parse(e.headers);a={...a,...l}}catch{}let r=JSON.stringify({title:t,content:n});if(e.body){let l=JSON.stringify(t).slice(1,-1),o=JSON.stringify(n).slice(1,-1);r=e.body.replace(/{title}/g,()=>l).replace(/{body}/g,()=>o)}return(await fetch(e.url,{method:"POST",headers:a,body:r})).ok?"OK":"FAIL"}catch{return"ERR"}}function V(e,t="UTC"){let n=S.getTzToday(t),a=e.createDate||S.toYMD(n),r=e.lastRenewDate||a,s=Number(e.intervalDays),l=e.cycleUnit||"day",o;if(Array.isArray(e.renewHistory)&&e.renewHistory.length>0&&e.renewHistory[0].endDate)o=S.parseYMD(e.renewHistory[0].endDate);else{let g=S.parseYMD(r);if(e.useLunar){let u=D.solar2lunar(g.getUTCFullYear(),g.getUTCMonth()+1,g.getUTCDate());if(u){let w=$.addPeriod(u,s,l),k=$.l2s(w);o=new Date(Date.UTC(k.year,k.month-1,k.day))}else o=new Date(g)}else o=new Date(g),l==="year"?o.setUTCFullYear(o.getUTCFullYear()+s):l==="month"?o.setUTCMonth(o.getUTCMonth()+s):o.setUTCDate(o.getUTCDate()+s)}let i="",d="";if(e.useLunar){let g=D.solar2lunar(o.getUTCFullYear(),o.getUTCMonth()+1,o.getUTCDate());g&&(i=g.fullStr);let u=S.parseYMD(r),w=D.solar2lunar(u.getUTCFullYear(),u.getUTCMonth()+1,u.getUTCDate());w&&(d=w.fullStr)}return{...e,enabled:e.enabled!==!1,cycleUnit:l,createDate:a,lastRenewDate:r,serviceDays:Math.floor((n-S.parseYMD(a))/864e5),daysLeft:Math.round((o-n)/864e5),nextDueDate:S.toYMD(o),nextDueDateLunar:i,lastRenewDateLunar:d,tags:Array.isArray(e.tags)?e.tags:[],useLunar:!!e.useLunar,notifyTime:e.notifyTime||"08:00"}}var ne={zh:{scan:"扫描 %s 个服务",autoDisable:"🚫 [%s] 过期 %s 天，已自动禁用",autoRenew:"🔄 [%s] 自动续期成功",today:"今天到期",overdue:"过期 %s 天",left:"剩 %s 天",checkLog:"[CHECK] %s | %s",thres:"(阈值: %s)",pushTitle:"RenewHelper 报告",secDis:"🚫 服务已禁用",secRen:"🔄 服务已续期",secAle:"⏳ 服务即将到期",editLastRenewHint:"请在「历史记录」中修改",note:"备注",lblEnable:"启用",lblToken:"令牌 (Token)",lblApiKey:"API Key",lblChatId:"会话ID",lblServer:"服务器URL",lblDevKey:"设备Key",lblFrom:"发件人",lblTo:"收件人",lblNotifyTime:"提醒时间",btnTest:"发送测试"},en:{scan:"Scan %s items",autoDisable:"🚫 [%s] Overdue %sd, Disabled",autoRenew:"🔄 [%s] Auto Renewed",today:"Due Today",overdue:"Overdue %sd",left:"Left %sd",checkLog:"[CHECK] %s | %s",thres:"(Thres: %s)",pushTitle:"RenewHelper Report",secDis:"🚫 Services Disabled",secRen:"🔄 Services Renewed",secAle:"⏳ Expiring Soon",editLastRenewHint:"Please modify in History",note:"Note",lblEnable:"Enable",lblToken:"Token",lblApiKey:"API Key",lblChatId:"Chat ID",lblServer:"Server URL",lblDevKey:"Device Key",lblFrom:"From Email",lblTo:"To Email",lblNotifyTime:"Alarm Time",btnTest:"Send Test"}};function h(e,t,...n){let a=(ne[t]||ne.zh)[e]||e;return n.forEach(r=>a=a.replace("%s",r)),a}async function le(e,t,n="zh"){let[a,r]=await Promise.all([v.getSettings(e),v.getItemsPackage(e)]),s=a,l=r.items,o=r.version,p=[],i=f=>{p.push(f),console.log(f)},d=[],g=[],u=[],w=[],k=!1;i(`[SYSTEM] ${h("scan",n,l.length)}`);let P=S.getTzToday(s.timezone),E=S.toYMD(P),H=0,B=0;try{let c=new Intl.DateTimeFormat("en-US",{timeZone:s.timezone||"UTC",hour12:!1,hour:"numeric",minute:"numeric"}).formatToParts(new Date),y=b=>{let A=c.find(O=>O.type===b);return A?parseInt(A.value,10):0};H=y("hour"),B=y("minute")}catch{}for(let f=0;f<l.length;f++){let c=l[f];if(c.createDate||(c.createDate=S.toYMD(new Date)),c.lastRenewDate||(c.lastRenewDate=c.createDate),c.enabled===!1)continue;let y=V(c,s.timezone),b=y.daysLeft,A=c.message?` (${h("note",n)}: ${c.message})`:"",O=c.autoRenew!==!1,z=typeof c.autoRenewDays=="number"?c.autoRenewDays:3,U=typeof c.notifyDays=="number"?c.notifyDays:3;if(!O&&b<=-Math.abs(s.autoDisableDays)){i(h("autoDisable",n,c.name,Math.abs(b),s.autoDisableDays)),c.enabled=!1,l[f]=c,u.push({...c,daysLeft:b,nextDueDate:y.nextDueDate,note:A}),k=!0;continue}else if(O&&b<=-Math.abs(z)){i(h("autoRenew",n,c.name));let x;try{let C=s.timezone||"UTC";x=new Intl.DateTimeFormat("en-CA",{timeZone:C,year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:!1}).format(new Date).replace(", "," ")}catch{x=new Date().toISOString().replace("T"," ").split(".")[0]}let N=E;c.type!=="reset"&&y.nextDueDate>E&&(N=y.nextDueDate);let m=N,M=Number(c.intervalDays),Y=c.cycleUnit||"day",j=S.parseYMD(N);if(c.useLunar){let C=D.solar2lunar(j.getUTCFullYear(),j.getUTCMonth()+1,j.getUTCDate());if(C){let Q=$.addPeriod(C,M,Y),K=$.l2s(Q);m=`${K.year}-${K.month.toString().padStart(2,"0")}-${K.day.toString().padStart(2,"0")}`}}else{let C=new Date(j);Y==="year"?C.setUTCFullYear(C.getUTCFullYear()+M):Y==="month"?C.setUTCMonth(C.getUTCMonth()+M):C.setUTCDate(C.getUTCDate()+M),m=S.toYMD(C)}let re=c.lastRenewDate;c.lastRenewDate=E;let se={renewDate:x,startDate:N,endDate:m,price:c.fixedPrice||0,currency:c.currency||"CNY",note:"Auto Renew"};Array.isArray(c.renewHistory)||(c.renewHistory=[]),c.renewHistory.unshift(se),g.push({name:c.name,old:re,new:E,note:A,notifyChannelIds:c.notifyChannelIds}),l[f]=c,k=!0}else if(b<=U){let x=b===0?h("today",n):b<0?h("overdue",n,Math.abs(b)):h("left",n,b);i(h("checkLog",n,c.name,`${x} ${h("thres",n,U)}`));let N=!0;if(t){let m=c.notifyTime||"08:00",[M,Y]=m.split(":").map(Number);Math.abs(H*60+B-(M*60+Y))>5&&(N=!1)}N?d.push({...y,note:A}):w.push({...y})}else{let x=b===0?h("today",n):h("left",n,b);i(h("checkLog",n,c.name,x))}}if(k)try{await v.saveItems(e,l,o),i("[SYSTEM] Data saved successfully.")}catch(f){f.message==="VERSION_CONFLICT"?(i("[WARN] Data conflict detected during cron. Skipping save to protect data."),g=[],u=[]):i(`[ERR] Save failed: ${f.message}`)}if(s.enableNotify){let f=s.notifyTitle||h("pushTitle",n),c=s.channels?s.channels.filter(y=>y.enable):[];if(c.length===0)i("[PUSH] No enabled channels found.");else{let y=[];for(let b of c){let A=m=>!m.notifyChannelIds||!Array.isArray(m.notifyChannelIds)||m.notifyChannelIds.length===0?!0:m.notifyChannelIds.includes(b.id),O=u.filter(A),z=g.filter(A),U=d.filter(A);if(O.length===0&&z.length===0&&U.length===0)continue;let x=[];O.length&&(x.push(`【${h("secDis",n)}】`),O.forEach((m,M)=>x.push(`${M+1}. ${m.name} (${h("overdue",n,Math.abs(m.daysLeft))} / ${m.nextDueDate})
-${m.note}`)),x.push("")),z.length&&(x.push(`【${h("secRen",n)}】`),z.forEach((m,M)=>x.push(`${M+1}. ${m.name}: ${m.old} -> ${m.new}
-${m.note}`)),x.push("")),U.length&&(x.push(`【${h("secAle",n)}】`),U.forEach((m,M)=>{let Y=m.daysLeft===0?h("today",n):m.daysLeft<0?h("overdue",n,Math.abs(m.daysLeft)):h("left",n,m.daysLeft);x.push(`${M+1}. ${m.name}: ${Y} (${m.nextDueDate})
-${m.note}`)}));let N=x.join(`
-`).trim();y.push(X.dispatch([b],f,N).then(m=>`[${b.name}]: ${m}`))}if(y.length>0){let b=await Promise.all(y);i(`[PUSH] ${b.join(" ")}`)}}}let L=[g.length?"renew":null,u.length?"disable":null,d.length?"alert":null,w.length?"normal":null].filter(Boolean),_=p.some(f=>f.includes("[WARN]")||f.includes("[ERR]"));return L.length===0&&L.push("normal"),_&&!L.includes("alert")&&L.push("alert"),L.length>0&&await v.saveLog(e,{time:new Date().toISOString(),trigger:t?"CRON":"MANUAL",content:p,actions:L}),{logs:p,currentList:l,version:o}}var T=new Z,F=e=>async(t,n,a)=>await q.verify(t,n)?e(t,n,a):R("UNAUTHORIZED",401);T.get("/",()=>new Response(ee,{headers:{"content-type":"text/html;charset=UTF-8"}}));T.post("/api/login",async(e,t)=>{let n=e.headers.get("cf-connecting-ip");if(!await ae.check(t,n,"login"))return R("RATE_LIMIT_EXCEEDED: Try again later",429);try{let a=await e.json();return I({code:200,token:await q.login(a.password,t)})}catch{return R("AUTH_ERROR",403)}});T.get("/api/list",F(async(e,t)=>{let n=await v.getCombined(t);return delete n.settings.jwtSecret,n.items=n.items.map(a=>V(a,n.settings.timezone)),I({code:200,data:n})}));T.post("/api/check",F(async(e,t)=>{let n=await e.json().catch(()=>({})),a=await le(t,!1,n.lang),r=await v.getSettings(t),s=a.currentList.map(l=>V(l,r.timezone));return I({code:200,logs:a.logs,data:s})}));T.get("/api/logs",F(async(e,t)=>I({code:200,data:await v.getLogs(t)})));T.get("/api/rates",F(async(e,t)=>{let a=new URL(e.url).searchParams.get("base")||"CNY",r="RATES_"+a,s=await t.RENEW_KV.get(r,{type:"json"});if(s&&s.ts&&Date.now()-s.ts<864e5)return I(s.data);try{let l=await fetch(ie+a);if(!l.ok)throw new Error("Upstream API Error");let o=await l.json();return await t.RENEW_KV.put(r,JSON.stringify({ts:Date.now(),data:o}),{expirationTtl:86400}),I(o)}catch{return R("RATE_FETCH_FAILED",502)}}));T.post("/api/logs/clear",F(async(e,t)=>(await t.RENEW_KV.delete(v.KEYS.LOGS),I({code:200,msg:"CLEARED"}))));T.post("/api/save",F(async(e,t)=>{let n=await e.json(),a=await v.getSettings(t),r={...n.settings,jwtSecret:a.jwtSecret},s=n.items.map(l=>{let o={...l,id:l.id||Date.now().toString(),intervalDays:Number(l.intervalDays),enabled:l.enabled!==!1,tags:Array.isArray(l.tags)?l.tags:[],useLunar:!!l.useLunar,notifyDays:l.notifyDays!==null?Number(l.notifyDays):null,notifyTime:l.notifyTime||"08:00",autoRenew:l.autoRenew!==!1,autoRenewDays:l.autoRenewDays!==null?Number(l.autoRenewDays):null,fixedPrice:Number(l.fixedPrice)||0,currency:l.currency||"CNY",notifyChannelIds:Array.isArray(l.notifyChannelIds)?l.notifyChannelIds:[],renewHistory:Array.isArray(l.renewHistory)?l.renewHistory:[]};return V(o,r.timezone)});try{let l=n.version!==void 0?Number(n.version):null,o=await v.saveItems(t,s,l);return await v.saveSettings(t,r),I({code:200,msg:"SAVED",version:o})}catch(l){if(l.message==="VERSION_CONFLICT")return R("DATA_CHANGED_RELOAD_REQUIRED",409);throw l}}));T.get("/api/export",F(async(e,t)=>{let n=await v.getCombined(t);delete n.settings.jwtSecret;let a={meta:{version:oe,exportedAt:new Date().toISOString()},...n};return new Response(JSON.stringify(a,null,2),{headers:{"Content-Type":"application/json","Content-Disposition":`attachment; filename="RenewHelper_Backup_${new Date().toISOString().split("T")[0]}.json"`}})}));T.post("/api/import",F(async(e,t)=>{try{let n=await e.json();if(!Array.isArray(n.items)||!n.settings)throw new Error("INVALID_FILE_FORMAT");await v.saveItems(t,n.items);let a=await v.getSettings(t),r={...a,...n.settings,jwtSecret:a.jwtSecret};return await v.saveSettings(t,r),I({code:200,msg:"IMPORTED"})}catch(n){return R("IMPORT_FAILED: "+n.message,400)}}));T.post("/api/test-notify",F(async(e,t)=>{let n=e.headers.get("cf-connecting-ip");if(!await ae.check(t,n,"test_notify"))return R("RATE_LIMIT_EXCEEDED: Max 100/day, 1/sec",429);try{let a=await e.json(),{channelObj:r}=a;if(!X.adapters[r.type])return R("INVALID_CHANNEL_TYPE");r.enable=!0;let s=await X.dispatch([r],"RenewHelper Test",`Test message for channel: ${r.name}`);return s.includes("FAIL")||s.includes("ERR")||s.includes("MISSING")||s.includes("NO_")?R(s,400):I({code:200,msg:s})}catch(a){return R("TEST_ERROR: "+a.message)}}));T.get("/api/calendar.ics",async(e,t,n)=>{let a=n.searchParams.get("token"),r=await v.getSettings(t);if(!a||a!==r.calendarToken)return new Response("Unauthorized: Invalid Calendar Token",{status:401});let s=await v.getItems(t),l=r.language==="en"?"en":"zh",o={zh:{lblCycle:"提醒周期",lblLast:"上次续费",note:"备注",unit:{day:"天",month:"月",year:"年"}},en:{lblCycle:"Cycle",lblLast:"Last Renew",note:"Note",unit:{day:" Days",month:" Months",year:" Years"}}}[l],p=r.timezone||"UTC",i=u=>u?String(u).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r\n/g,"\\n").replace(/\n/g,"\\n").replace(/\r/g,"\\n"):"",d=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//RenewHelper//Calendar//EN","METHOD:PUBLISH","X-WR-CALNAME:RenewHelper","REFRESH-INTERVAL;VALUE=DURATION:P1D","CALSCALE:GREGORIAN",`X-WR-TIMEZONE:${p}`],g=new Date().toISOString().replace(/[-:]/g,"").split(".")[0]+"Z";return s.forEach(u=>{if(!u.enabled)return;let w=V(u,r.timezone),k=w.nextDueDate.replace(/-/g,""),P=S.parseYMD(w.nextDueDate),E=new Date(P);E.setDate(E.getDate()+1);let H=S.toYMD(E).replace(/-/g,"");d.push("BEGIN:VEVENT"),d.push(`UID:${u.id}@renewhelper`),d.push(`DTSTAMP:${g}`),d.push(`DTSTART;VALUE=DATE:${k}`),d.push(`DTEND;VALUE=DATE:${H}`),d.push(`SUMMARY:${i(u.name)}`),d.push("STATUS:CONFIRMED"),d.push("TRANSP:TRANSPARENT");let B=o.unit[u.cycleUnit]||u.cycleUnit,L=[];L.push(`${o.lblCycle}: ${u.intervalDays}${B}`),L.push(`${o.lblLast}: ${u.lastRenewDate}`),u.message&&L.push(`${o.note}: ${i(u.message)}`),d.push(`DESCRIPTION:${L.join("\\n")}`);let _=u.notifyTime||"08:00",[f,c]=_.split(":").map(Number),y="PT";f>0&&(y+=`${f}H`),c>0&&(y+=`${c}M`),y==="PT"&&(y="PT0M"),d.push("BEGIN:VALARM"),d.push(`TRIGGER:${y}`),d.push("ACTION:DISPLAY"),d.push(`DESCRIPTION:${i(u.name)}`),d.push("END:VALARM"),d.push("END:VEVENT")}),d.push("END:VCALENDAR"),new Response(d.join(`\r
-`),{headers:{"Content-Type":"text/calendar; charset=utf-8","Content-Disposition":'inline; filename="renewhelper.ics"',"Cache-Control":"no-cache, no-store, must-revalidate"}})});var pe={async scheduled(e,t,n){n.waitUntil(le(t,!0))},async fetch(e,t,n){return T.route(e,t).catch(a=>R("SERVER ERROR: "+a.message,500))}};export{pe as default};
+</html>
