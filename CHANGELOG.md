@@ -44,4 +44,4 @@
 - 2026-02-12: added: lark(feishu) & wecom(work wechat) channels (token/secret simplification); improved: bilingual channel names & tags; docs: https requirement for docker v3.3.7
 - 2026-02-12: fixed: mobile layout overflow in settings dialog; improved: smart collapse & clearable for select components; added: random generate & copy buttons for backup key v3.3.24
 - 2026-02-14: security: fix timing attack vulnerability in backup api; audit: code security review completed v3.3.26
-
+- 2026-02-21: feature: introduce RRULE-based natural recurrence engine (Fixed Repeat Mode); add future 3 times preview calculations; improve: fix element-plus allow-create type mismatch, negative number backwards offset logic, fix mode layout shifting v3.4.13

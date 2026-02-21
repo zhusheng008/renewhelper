@@ -75,6 +75,80 @@ const frontendCalc = {
             td--;
         }
         return { year, month, day, isLeap };
+    },
+    generateMonthCandidates(y, m, bymonthday, byweekday, bysetpos) {
+        let daysInMonth = new Date(Date.UTC(y, m + 1, 0)).getUTCDate();
+        let res = [];
+        if (bymonthday && bymonthday.length) {
+            for (let d of bymonthday) {
+                let testD = Number(d);
+                if (testD < 0) testD = daysInMonth + testD + 1;
+                if (testD > 0 && testD <= daysInMonth) {
+                    let dt = new Date(Date.UTC(y, m, testD));
+                    if (!byweekday || !byweekday.length || byweekday.includes(dt.getUTCDay())) res.push(dt);
+                }
+            }
+        } else {
+            for (let d = 1; d <= daysInMonth; d++) {
+                let dt = new Date(Date.UTC(y, m, d));
+                if (!byweekday || !byweekday.length || byweekday.includes(dt.getUTCDay())) res.push(dt);
+            }
+        }
+        if (bysetpos !== undefined && bysetpos !== null && bysetpos !== '') {
+            let pos = Number(bysetpos);
+            res.sort((a, b) => a.getTime() - b.getTime());
+            if (pos > 0 && pos <= res.length) res = [res[pos - 1]];
+            else if (pos < 0 && Math.abs(pos) <= res.length) res = [res[res.length + pos]];
+            else res = [];
+        }
+        return res;
+    },
+    calcNextRepeatDate(repeat, rDateStr, cDateStr) {
+        if (!repeat) return null;
+        let dtstart = parseYMD(cDateStr || rDateStr);
+        let baseObj = parseYMD(rDateStr);
+        let freq = repeat.freq || "monthly";
+        let interval = Math.max(1, Number(repeat.interval) || 1);
+        let bymonthday = Array.isArray(repeat.bymonthday) ? repeat.bymonthday : (repeat.bymonthday ? [repeat.bymonthday] : null);
+        let byweekday = Array.isArray(repeat.byweekday) ? repeat.byweekday : (repeat.byweekday ? [repeat.byweekday] : null);
+        let bymonth = Array.isArray(repeat.bymonth) ? repeat.bymonth : (repeat.bymonth ? [repeat.bymonth] : null);
+        let bysetpos = repeat.bysetpos;
+        
+        if ((!bymonthday || !bymonthday.length) && (!byweekday || !byweekday.length) && !bysetpos) {
+            if (freq === 'monthly' || freq === 'yearly') bymonthday = [dtstart.getUTCDate()];
+            if (freq === 'weekly') byweekday = [dtstart.getUTCDay()];
+        }
+        if (freq === 'yearly' && (!bymonth || !bymonth.length)) bymonth = [dtstart.getUTCMonth() + 1];
+
+        for (let periods = 0; periods < 100; periods++) {
+            let candidates = [];
+            let y = dtstart.getUTCFullYear(), m = dtstart.getUTCMonth(), d = dtstart.getUTCDate();
+            if (freq === 'yearly') {
+                y += periods * interval;
+                let mList = (bymonth && bymonth.length) ? bymonth : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+                for (let testM of mList) candidates.push(...this.generateMonthCandidates(y, testM - 1, bymonthday, byweekday, bysetpos));
+            } else if (freq === 'monthly') {
+                let tm = m + periods * interval;
+                candidates.push(...this.generateMonthCandidates(y + Math.floor(tm / 12), tm % 12, bymonthday, byweekday, bysetpos));
+            } else if (freq === 'weekly') {
+                let wStart = new Date(Date.UTC(y, m, d + (periods * interval * 7)));
+                let dayOfWeek = wStart.getUTCDay();
+                let diffToMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+                let mon = new Date(Date.UTC(wStart.getUTCFullYear(), wStart.getUTCMonth(), wStart.getUTCDate() - diffToMonday));
+                for (let i = 0; i < 7; i++) {
+                    let curr = new Date(Date.UTC(mon.getUTCFullYear(), mon.getUTCMonth(), mon.getUTCDate() + i));
+                    if (!byweekday || !byweekday.length || byweekday.includes(curr.getUTCDay())) candidates.push(curr);
+                }
+            } else if (freq === 'daily') {
+                candidates.push(new Date(Date.UTC(y, m, d + periods * interval)));
+            }
+            candidates = candidates.filter(cd => cd > baseObj);
+            if (candidates.length > 0) {
+                candidates.sort((a, b) => a.getTime() - b.getTime());
+                return candidates[0];
+            }
+        }
+        return new Date(Date.UTC(baseObj.getUTCFullYear(), baseObj.getUTCMonth(), baseObj.getUTCDate() + 1));
     }
 };
 const messages = {
@@ -85,7 +159,7 @@ const messages = {
         lblTopic: '主题 (Topic)', readOnly: '只读',
         lblNotifyTime: '提醒时间', btnResetToken: '重置令牌',
         lblHeaders: '请求头 (JSON)', lblBody: '消息体 (JSON)',
-        tag: { alert: '触发提醒', renew: '自动续期', disable: '自动禁用', normal: '检查正常' }, tagLatest: '最新', tagAuto: '自动', tagManual: '手动', msg: { confirmRenew: '确认将 [%s] 的更新日期设置为今天吗？', renewSuccess: '续期成功！日期已更新: %s -> %t', tokenReset: '令牌已重置，请更新订阅地址', copyOk: '链接已复制', exportSuccess: '备份已下载', importSuccess: '数据恢复成功，即将刷新', importFail: '导入失败，请检查文件格式', passReq: '请输入密码', saved: '保存成功', saveFail: '保存失败', cleared: '已清空', clearFail: '清空失败', loginFail: '验证失败', loadLogFail: '日志加载失败', confirmDel: '确认删除此项目?', dateError: '上次更新日期不能早于创建日期', nameReq: '服务名称不能为空', nameExist: '服务名称已存在', futureError: '上次续期不能是未来时间', serviceDisabled: '服务已停用', serviceEnabled: '服务已启用', execFinish: '执行完毕!', rateFallback: 'API请求失败，已使用默认汇率' }, tags: '标签', tagPlaceholder: '输入标签回车创建', searchPlaceholder: '搜索标题或备注...', tagsCol: '标签', tagAll: '全部', useLunar: '农历周期', lunarTip: '按农历日期计算周期', yes: '是', no: '否', timezone: '偏好时区', disabledFilter: '已停用', policyConfig: '自动化策略', policyNotify: '提醒提前期', policyAuto: '自动续期', policyRenewDay: '过期续期天数', useGlobal: '全局默认', autoRenewOnDesc: '过期自动续期', autoRenewOffDesc: '过期自动禁用', previewCalc: '根据上次续期日期和周期计算', nextDue: '下次到期',
+        tag: { alert: '触发提醒', renew: '自动续期', disable: '自动禁用', normal: '检查正常' }, tagLatest: '最新', tagAuto: '自动', tagManual: '手动', msg: { confirmRenew: '确认将 [%s] 的更新日期设置为今天吗？', renewSuccess: '续期成功！日期已更新: %s -> %t', tokenReset: '令牌已重置，请更新订阅地址', copyOk: '链接已复制', exportSuccess: '备份已下载', importSuccess: '数据恢复成功，即将刷新', importFail: '导入失败，请检查文件格式', passReq: '请输入密码', saved: '保存成功', saveFail: '保存失败', cleared: '已清空', clearFail: '清空失败', loginFail: '验证失败', loadLogFail: '日志加载失败', confirmDel: '确认删除此项目?', dateError: '上次更新日期不能早于创建日期', nameReq: '服务名称不能为空', nameExist: '服务名称已存在', futureError: '上次续期不能是未来时间', serviceDisabled: '服务已停用', serviceEnabled: '服务已启用', execFinish: '执行完毕!', rateFallback: 'API请求失败，已使用默认汇率' }, tags: '标签', tagPlaceholder: '输入标签回车创建', searchPlaceholder: '搜索标题或备注...', tagsCol: '标签', tagAll: '全部', useLunar: '农历周期', lunarTip: '按农历日期计算周期', yes: '是', no: '否', timezone: '偏好时区', disabledFilter: '已停用', policyConfig: '自动化策略', policyNotify: '提醒提前期', policyAuto: '自动续期', policyRenewDay: '过期续期天数', useGlobal: '全局默认', autoRenewOnDesc: '过期自动续期', autoRenewOffDesc: '过期自动禁用', previewCalc: '根据上次续期日期和周期计算', nextDue: '下次到期', typeRepeat: '固定重复',
         fixedPrice: '账单额', currency: '币种', defaultCurrency: '默认币种', history: '历史记录', historyTitle: '续费历史', totalCost: '总花费', totalCount: '续费次数', renewDate: '操作日期', billPeriod: '账单周期', startDate: '开始日期', endDate: '结束日期', actualPrice: '实付金额', notePlaceholder: '可选备注...', btnAddHist: '补录历史', modify: '修改渠道', confirmDelHist: '删除此记录?', opDate: '操作日', amount: '金额', period: '周期', spendingDashboard: '花销看板', monthlyBreakdown: '月度明细', total: '总计', count: '笔', growth: '环比', currMonth: '本月', avgMonthlyLabel: '月均支出', itemDetails: '项目明细', noData: '暂无数据', predictedTag: '预测', last12M: '最近12个月', lblPushTitle: '自定义标题', pushTitle: 'RenewHelper 报告',
         addChannel: '添加渠道', noChannels: '暂无推送渠道，请点击右上角添加。', modifyChannel: '配置渠道', channelType: '渠道类型', channelName: '渠道名称 (备注)', selectChannels: '选择推送渠道 (留空则默认推送所有)', delete: '删除'
     },
@@ -97,7 +171,7 @@ const messages = {
         lblTopic: 'Topic', readOnly: 'Read-only',
         lblNotifyTime: 'Alarm Time', btnResetToken: 'RESET TOKEN',
         lblHeaders: 'Headers (JSON)', lblBody: 'Body (JSON)',
-        tag: { alert: 'ALERT', renew: 'RENEWED', disable: 'DISABLED', normal: 'NORMAL' }, tagLatest: 'LATEST', tagAuto: 'AUTO', tagManual: 'MANUAL', msg: { confirmRenew: 'Renew [%s] to today based on your timezone?', renewSuccess: 'Renewed! Date updated: %s -> %t', tokenReset: 'Token Reset. Update your calendar apps.', copyOk: 'Link Copied', exportSuccess: 'Backup Downloaded', importSuccess: 'Restore Success, Refreshing...', importFail: 'Import Failed, Check File Format', passReq: 'Password Required', saved: 'Data Saved', saveFail: 'Save Failed', cleared: 'Cleared', clearFail: 'Clear Failed', loginFail: 'Access Denied', loadLogFail: 'Load Failed', confirmDel: 'Confirm Delete?', dateError: 'Last renew date cannot be earlier than create date', nameReq: 'Name Required', nameExist: 'Name already exists', futureError: 'Renew date cannot be in the future', serviceDisabled: 'Service Disabled', serviceEnabled: 'Service Enabled', execFinish: 'EXECUTION FINISHED!', rateFallback: 'Network Error. Used default rates.' }, tags: 'TAGS', tagPlaceholder: 'Press Enter to create tag', searchPlaceholder: 'Search...', tagsCol: 'TAGS', tagAll: 'ALL', useLunar: 'Lunar Cycle', lunarTip: 'Calculate based on Lunar calendar', yes: 'Yes', no: 'No', timezone: 'Timezone', disabledFilter: 'DISABLED', policyConfig: 'Policy Config', policyNotify: 'Notify Days', policyAuto: 'Auto Renew', policyRenewDay: 'Renew Days', useGlobal: 'Global Default', autoRenewOnDesc: 'Auto Renew when overdue', autoRenewOffDesc: 'Auto Disable when overdue', previewCalc: 'Based on Last Renew Date & Interval', nextDue: 'NEXT DUE',
+        tag: { alert: 'ALERT', renew: 'RENEWED', disable: 'DISABLED', normal: 'NORMAL' }, tagLatest: 'LATEST', tagAuto: 'AUTO', tagManual: 'MANUAL', msg: { confirmRenew: 'Renew [%s] to today based on your timezone?', renewSuccess: 'Renewed! Date updated: %s -> %t', tokenReset: 'Token Reset. Update your calendar apps.', copyOk: 'Link Copied', exportSuccess: 'Backup Downloaded', importSuccess: 'Restore Success, Refreshing...', importFail: 'Import Failed, Check File Format', passReq: 'Password Required', saved: 'Data Saved', saveFail: 'Save Failed', cleared: 'Cleared', clearFail: 'Clear Failed', loginFail: 'Access Denied', loadLogFail: 'Load Failed', confirmDel: 'Confirm Delete?', dateError: 'Last renew date cannot be earlier than create date', nameReq: 'Name Required', nameExist: 'Name already exists', futureError: 'Renew date cannot be in the future', serviceDisabled: 'Service Disabled', serviceEnabled: 'Service Enabled', execFinish: 'EXECUTION FINISHED!', rateFallback: 'Network Error. Used default rates.' }, tags: 'TAGS', tagPlaceholder: 'Press Enter to create tag', searchPlaceholder: 'Search...', tagsCol: 'TAGS', tagAll: 'ALL', useLunar: 'Lunar Cycle', lunarTip: 'Calculate based on Lunar calendar', yes: 'Yes', no: 'No', timezone: 'Timezone', disabledFilter: 'DISABLED', policyConfig: 'Policy Config', policyNotify: 'Notify Days', policyAuto: 'Auto Renew', policyRenewDay: 'Renew Days', useGlobal: 'Global Default', autoRenewOnDesc: 'Auto Renew when overdue', autoRenewOffDesc: 'Auto Disable when overdue', previewCalc: 'Based on Last Renew Date & Interval', nextDue: 'NEXT DUE', typeRepeat: 'REPEAT',
         fixedPrice: 'PRICE', currency: 'Currency', defaultCurrency: 'Default Currency', history: 'History', historyTitle: 'Renewal History', totalCost: 'Total Cost', totalCount: 'Total Count', renewDate: 'Op Date', billPeriod: 'Bill Period', startDate: 'Start Date', endDate: 'End Date', actualPrice: 'Actual Price', notePlaceholder: 'Optional note...', btnAddHist: 'Add Record', modify: 'Edit Channel', confirmDelHist: 'Delete record?', opDate: 'Op Date', amount: 'Amount', period: 'Period', spendingDashboard: 'SPENDING DASHBOARD', monthlyBreakdown: 'MONTHLY BREAKDOWN', total: 'TOTAL', count: 'COUNT', growth: 'GROWTH', currMonth: 'CURRENT', itemDetails: 'ITEMS', noData: 'NO DATA', predictedTag: 'PREDICTED', lblPushTitle: 'Push Title', pushTitle: 'RenewHelper Report',
         addChannel: 'Add Channel', noChannels: 'No channels. Add one!', modifyChannel: 'Edit Channel', channelType: 'Type', channelName: 'Name', selectChannels: 'Notification Channels (Leave empty for All)', delete: 'Delete'
     }
@@ -113,7 +187,16 @@ const parseYMD = (s) => {
 
 // Date calculation logic shared between validation and auto-fill
 const calculateCycleEndDate = (startDateStr, item) => {
-    if (!startDateStr || !item || !item.intervalDays) return null;
+    if (!startDateStr || !item) return null;
+    if (item.type === 'repeat' && item.repeat) {
+        try {
+            const nextUTC = frontendCalc.calcNextRepeatDate(item.repeat, startDateStr, item.createDate || startDateStr);
+            if (nextUTC) return nextUTC.toISOString().split('T')[0];
+        } catch (e) { console.error('Repeat cycle error:', e); }
+        return null;
+    }
+    
+    if (!item.intervalDays) return null;
 
     try {
         if (item.useLunar && typeof frontendCalc !== 'undefined' && frontendCalc.addPeriod) {
@@ -341,7 +424,8 @@ const nextDueFilters = computed(() => [
 ]);
 const typeFilters = computed(() => [
     { text: t('typeCycle'), value: 'cycle' },
-    { text: t('typeReset'), value: 'reset' }
+    { text: t('typeReset'), value: 'reset' },
+    { text: t('typeRepeat'), value: 'repeat' }
 ]);
 const uptimeFilters = computed(() => [
     { text: t('filter.new'), value: 'new' },
@@ -1016,12 +1100,17 @@ const saveItem = async () => {
     if (form.value.lastRenewDate > getLocalToday()) return ElMessage.error(t('msg.futureError'));
 
     // 新建时自动创建初始账单记录
-    if (!isEdit.value && form.value.lastRenewDate && form.value.intervalDays) {
+    if (!isEdit.value && form.value.lastRenewDate && (form.value.intervalDays || form.value.type === 'repeat')) {
         const startDate = form.value.lastRenewDate;
         let endDate = startDate;
 
         // 计算 endDate = startDate + intervalDays (往后推算)
-        if (form.value.useLunar && typeof LUNAR !== 'undefined' && typeof frontendCalc !== 'undefined') {
+        if (form.value.type === 'repeat' && form.value.repeat) {
+            try {
+                const nextUTC = frontendCalc.calcNextRepeatDate(form.value.repeat, startDate, form.value.createDate || startDate);
+                if (nextUTC) endDate = nextUTC.toISOString().split('T')[0];
+            } catch (e) { console.error(e); }
+        } else if (form.value.useLunar && typeof LUNAR !== 'undefined' && typeof frontendCalc !== 'undefined') {
             // 【修复】农历逻辑：先转为农历对象 -> 计算 -> 转回公历
             const d = parseYMD(startDate); // 字符串转 Date
             const l = LUNAR.solar2lunar(d.getFullYear(), d.getMonth() + 1, d.getDate());
@@ -1134,8 +1223,127 @@ const formatLogTime = (isoStr) => {
     } catch (e) { return isoStr; }
 };
 
-const openAdd = () => { isEdit.value = false; const d = getLocalToday(); form.value = { id: Date.now().toString(), name: '', createDate: d, lastRenewDate: d, intervalDays: 30, cycleUnit: 'day', type: 'cycle', enabled: true, tags: [], useLunar: false, notifyDays: 3, notifyTime: '08:00', autoRenew: true, autoRenewDays: 3, fixedPrice: 0, currency: settings.value.defaultCurrency || 'CNY', notifyChannelIds: [], renewHistory: [] }; dialogVisible.value = true; };
-const editItem = (row) => { isEdit.value = true; form.value = { ...row, cycleUnit: row.cycleUnit || 'day', tags: [...(row.tags || [])], useLunar: !!row.useLunar, notifyDays: (row.notifyDays !== undefined ? row.notifyDays : 3), notifyTime: (row.notifyTime || '08:00'), autoRenew: row.autoRenew !== false, autoRenewDays: (row.autoRenewDays !== undefined ? row.autoRenewDays : 3), notifyChannelIds: (Array.isArray(row.notifyChannelIds) ? row.notifyChannelIds : []) }; dialogVisible.value = true; };
+
+
+const repeatDescription = computed(() => {
+    if (form.value.type !== 'repeat' || !form.value.repeat) return '';
+    const r = form.value.repeat;
+    const isZh = lang.value === 'zh';
+    
+    // 翻译字典
+    const dict = {
+        every: isZh ? '每' : 'Every',
+        daily: isZh ? '天' : (r.interval > 1 ? 'days' : 'day'),
+        weekly: isZh ? '周' : (r.interval > 1 ? 'weeks' : 'week'),
+        monthly: isZh ? '个月' : (r.interval > 1 ? 'months' : 'month'),
+        yearly: isZh ? '年' : (r.interval > 1 ? 'years' : 'year'),
+        monthSuffix: isZh ? '月' : '',
+        daySuffix: isZh ? '日' : '',
+        lastDayPattern: (d) => isZh ? (d === -1 ? '最后一天' : `倒数第${Math.abs(d)}天`) : (d === -1 ? 'the last day' : `the ${Math.abs(d)}th to last day`),
+        inMonth: isZh ? ' ' : ' in ',
+        onDay: isZh ? ' ' : ' on the ',
+        onWeekday: isZh ? ' ' : ' on ',
+        weekdaysZh: ['周日','周一','周二','周三','周四','周五','周六'],
+        weekdaysEn: ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
+        nthMatch: (n) => {
+            if (n === 1) return isZh ? '，并取第一个出现的日子' : ', taking the 1st match';
+            if (n === -1) return isZh ? '，并取最后一个出现的日子' : ', taking the last match';
+            if (n < 0) return isZh ? `，并取倒数第 ${Math.abs(n)} 个出现的日子` : `, taking the ${Math.abs(n)}th to last match`;
+            const sfx = ['st','nd','rd'][((n%100-20)%10)||n%10-1]||'th';
+            return isZh ? `，并取第 ${n} 个出现的日子` : `, taking the ${n}${sfx} match`;
+        }
+    };
+
+    let parts = [];
+    
+    // 1. 频率与间隔
+    const freqWord = dict[r.freq];
+    if (isZh && r.interval === 1) {
+        if (r.freq === 'monthly') parts.push('每月');
+        else if (r.freq === 'yearly') parts.push('每年');
+        else if (r.freq === 'weekly') parts.push('每周');
+        else if (r.freq === 'daily') parts.push('每天');
+    } else {
+        parts.push(isZh ? `${dict.every} ${r.interval} ${freqWord}` : `${dict.every} ${r.interval} ${freqWord}`);
+    }
+
+    let constraints = [];
+
+    // 2. 指定月份
+    if (r.freq === 'yearly' && r.bymonth && r.bymonth.length > 0) {
+        const mStr = r.bymonth.map(m => m + dict.monthSuffix).join('、');
+        constraints.push(isZh ? mStr : `in ${mStr}`);
+    }
+
+    // 3. 指定日期
+    if (['monthly', 'yearly'].includes(r.freq) && r.bymonthday && r.bymonthday.length > 0) {
+        const dStr = r.bymonthday.map(d => Number(d) < 0 ? dict.lastDayPattern(Number(d)) : d + dict.daySuffix).join('、');
+        let enStr = `on ${dStr}`;
+        if (!r.bymonthday.some(d => Number(d) < 0)) enStr = `on the ${dStr}`;
+        constraints.push(isZh ? `的 ${dStr}` : enStr);
+    }
+
+    // 4. 指定星期
+    if (['weekly', 'monthly', 'yearly'].includes(r.freq) && r.byweekday && r.byweekday.length > 0) {
+        const mapW = isZh ? dict.weekdaysZh : dict.weekdaysEn;
+        const wStr = r.byweekday.map(w => mapW[w]).join('、');
+        constraints.push(isZh ? (constraints.length > 0 ? `且必须是${wStr}` : `${wStr}`) : `on ${wStr}`);
+    }
+
+    if (constraints.length > 0) {
+         parts.push(constraints.join(isZh ? '' : ' '));
+    }
+
+    // 5. 精准定点
+    let finalStr = parts.join(isZh ? '' : ' ');
+    if (['monthly', 'yearly'].includes(r.freq) && r.bysetpos) {
+        finalStr += dict.nthMatch(Number(r.bysetpos));
+    } else if (isZh && constraints.length > 0) {
+        if (['monthly', 'yearly'].includes(r.freq)) {
+             finalStr += ' (如果存在)';
+        }
+    }
+
+    // 6. 附加推算出未来时间做直观验证
+    try {
+        let upcoming = [];
+        let curBase = getLocalToday(); // 或者从某个有源的地方拿
+        if (form.value.lastRenewDate) curBase = form.value.lastRenewDate;
+        
+        let pointerDate = curBase;
+        // 往后推算 4 次以判断是否有多余的项
+        for (let i = 0; i < 4; i++) {
+             // 防止循环次数耗光
+             const nd = frontendCalc.calcNextRepeatDate(r, pointerDate, form.value.createDate || curBase);
+             if (nd) {
+                 const ds = nd.toISOString().split('T')[0];
+                 upcoming.push(ds);
+                 // 强制往后推一天作为下次寻找的起点，防止出现同一个日子被重复匹配的死循环
+                 const nextDayObj = new Date(nd.getTime() + 86400000);
+                 pointerDate = nextDayObj.toISOString().split('T')[0];
+             } else {
+                 break; // 算不出结果
+             }
+        }
+        
+        if (upcoming.length > 0) {
+             const showDots = upcoming.length > 3;
+             const showList = showDots ? upcoming.slice(0, 3) : upcoming;
+             finalStr += (isZh ? ` | 🗓 预计: ` : ` | 🗓 Expected: `) + showList.join(', ') + (showDots ? '...' : '');
+        }
+    } catch(e) { /* 计算异常则不论 */ }
+
+    return finalStr;
+});
+const openAdd = () => { isEdit.value = false; const d = getLocalToday(); form.value = { id: Date.now().toString(), name: '', createDate: d, lastRenewDate: d, intervalDays: 30, cycleUnit: 'day', type: 'cycle', enabled: true, tags: [], useLunar: false, notifyDays: 3, notifyTime: '08:00', autoRenew: true, autoRenewDays: 3, fixedPrice: 0, currency: settings.value.defaultCurrency || 'CNY', notifyChannelIds: [], renewHistory: [], repeat: { freq: 'monthly', interval: 1, bymonth: [], bymonthday: [], byweekday: [], bysetpos: null } }; dialogVisible.value = true; };
+const editItem = (row) => { 
+    isEdit.value = true; 
+    let rObj = row.repeat ? JSON.parse(JSON.stringify(row.repeat)) : { freq: 'monthly', interval: 1, bymonth: [], bymonthday: [], byweekday: [], bysetpos: null };
+    if (rObj.bymonthday && Array.isArray(rObj.bymonthday)) rObj.bymonthday = rObj.bymonthday.map(String);
+    if (rObj.bysetpos !== null && rObj.bysetpos !== undefined) rObj.bysetpos = String(rObj.bysetpos);
+    form.value = { ...row, cycleUnit: row.cycleUnit || 'day', tags: [...(row.tags || [])], useLunar: !!row.useLunar, notifyDays: (row.notifyDays !== undefined ? row.notifyDays : 3), notifyTime: (row.notifyTime || '08:00'), autoRenew: row.autoRenew !== false, autoRenewDays: (row.autoRenewDays !== undefined ? row.autoRenewDays : 3), notifyChannelIds: (Array.isArray(row.notifyChannelIds) ? row.notifyChannelIds : []), repeat: rObj }; 
+    dialogVisible.value = true; 
+};
 const openSettings = () => {
     settingsForm.value = JSON.parse(JSON.stringify(settings.value));
     if (!settingsForm.value.upcomingBillsDays) settingsForm.value.upcomingBillsDays = 7;
@@ -1887,14 +2095,17 @@ const historyStats = computed(() => {
 
 
 const previewData = computed(() => {
-    const { lastRenewDate, intervalDays, cycleUnit, useLunar } = form.value;
-    if (!lastRenewDate || !intervalDays) return null;
+    const { lastRenewDate, intervalDays, cycleUnit, useLunar, type, repeat, createDate } = form.value;
+    if (!lastRenewDate || (!intervalDays && type !== 'repeat')) return null;
 
     try {
         let nextDateUTC;
 
         // --- 步骤 1: 计算“下一次到期日” (纯日期运算，使用 UTC 避免偏差) ---
-        if (useLunar) {
+        if (form.value.type === 'repeat' && form.value.repeat) {
+            nextDateUTC = frontendCalc.calcNextRepeatDate(form.value.repeat, lastRenewDate, createDate || lastRenewDate);
+            if (!nextDateUTC) return null;
+        } else if (useLunar) {
             const p = lastRenewDate.split('-');
             const y = parseInt(p[0]), m = parseInt(p[1]), d = parseInt(p[2]);
             const l = LUNAR.solar2lunar(y, m, d);
@@ -2479,6 +2690,9 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
                                         <span v-if="scope.row.type === 'reset'"
                                             class="text-[9px] font-bold bg-amber-50 text-amber-600 border border-amber-200 px-1.5 py-0.5 tracking-wider whitespace-nowrap">{{
                                                 t('typeReset') }}</span>
+                                        <span v-else-if="scope.row.type === 'repeat'"
+                                            class="text-[9px] font-bold bg-purple-50 text-purple-600 border border-purple-200 px-1.5 py-0.5 tracking-wider whitespace-nowrap">{{
+                                                t('typeRepeat') }}</span>
                                         <span v-else
                                             class="text-[9px] font-bold bg-blue-50 text-blue-600 border border-blue-200 px-1.5 py-0.5 tracking-wider whitespace-nowrap">{{
                                                 t('typeCycle') }}</span>
@@ -2533,10 +2747,14 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
 
                             <el-table-column :label="t('cyclePeriod')" width="90">
                                 <template #default="scope">
-                                    <span class="font-mono font-bold text-lg text-textDim">{{ scope.row.intervalDays
-                                    }}</span>
-                                    <span class="text-[10px] text-gray-400 uppercase align-top">{{
-                                        t('unit.' + (scope.row.cycleUnit || 'day')) }}</span>
+                                    <template v-if="scope.row.type === 'repeat' && scope.row.repeat">
+                                        <span class="font-mono font-bold text-lg text-textDim tracking-tighter">{{ scope.row.repeat.interval > 1 ? scope.row.repeat.interval : '1' }}</span>
+                                        <span class="text-[10px] text-gray-400 uppercase align-top ml-0.5">{{ scope.row.repeat.freq.substring(0,3) }}</span>
+                                    </template>
+                                    <template v-else>
+                                        <span class="font-mono font-bold text-lg text-textDim">{{ scope.row.intervalDays }}</span>
+                                        <span class="text-[10px] text-gray-400 uppercase align-top">{{ t('unit.' + (scope.row.cycleUnit || 'day')) }}</span>
+                                    </template>
                                 </template>
                             </el-table-column>
 
@@ -3110,24 +3328,102 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
                                     @click="!isEdit && (form.type = 'cycle')">📅 {{ t('cycle') }}</div>
                                 <div class="radio-item" :class="{ active: form.type === 'reset' }"
                                     @click="!isEdit && (form.type = 'reset')">⏳ {{ t('reset') }}</div>
+                                <div class="radio-item" :class="{ active: form.type === 'repeat' }"
+                                    @click="!isEdit && (form.type = 'repeat')">🔁 {{ t('typeRepeat') }}</div>
                             </div>
                         </el-form-item>
-                        <div class="w-px h-8 bg-slate-300 hidden sm:block mb-1"></div>
-                        <el-form-item :label="t('interval')" class="!mb-0 w-48">
-                            <el-input v-model.number="form.intervalDays" type="number" :min="1" :disabled="isEdit">
-                                <template #append>
-                                    <el-select v-model="form.cycleUnit" style="width:80px" :teleported="false"
-                                        :disabled="isEdit">
-                                        <el-option :label="t('unit.day')" value="day"></el-option>
-                                        <el-option :label="t('unit.month')" value="month"></el-option>
-                                        <el-option :label="t('unit.year')" value="year"></el-option>
+                        <div class="flex flex-col sm:flex-row items-end gap-4 transition-opacity" :class="form.type === 'repeat' ? '!hidden sm:!flex sm:invisible pointer-events-none select-none' : ''">
+                            <div class="w-px h-8 bg-slate-300 hidden sm:block mb-1"></div>
+                            <el-form-item :label="t('interval')" class="!mb-0 w-48">
+                                <el-input v-model.number="form.intervalDays" type="number" :min="1" :disabled="isEdit">
+                                    <template #append>
+                                        <el-select v-model="form.cycleUnit" style="width:80px" :teleported="false"
+                                            :disabled="isEdit">
+                                            <el-option :label="t('unit.day')" value="day"></el-option>
+                                            <el-option :label="t('unit.month')" value="month"></el-option>
+                                            <el-option :label="t('unit.year')" value="year"></el-option>
+                                        </el-select>
+                                    </template>
+                                </el-input>
+                            </el-form-item>
+                            <div class="w-px h-8 bg-slate-300 hidden sm:block mb-1"></div>
+                            <el-form-item :label="t('useLunar')" class="!mb-0"><el-switch v-model="form.useLunar"
+                                    style="--el-switch-on-color:#2563eb;" :disabled="isEdit"></el-switch></el-form-item>
+                        </div>
+                    </div>
+
+                    <!-- Repeat Settings Panel -->
+                    <div v-if="form.type === 'repeat' && form.repeat" class="p-4 mb-4 rounded-md border border-blue-200 bg-blue-50/50 dark:bg-slate-800/80 dark:border-slate-700 shadow-sm transition-all">
+                        <div class="flex items-center gap-2 font-bold text-sm text-blue-800 dark:text-blue-300 mb-4 pb-2 border-b border-blue-100 dark:border-slate-700">
+                            <el-icon><Calendar /></el-icon>{{ lang === 'zh' ? '定期重复设定 (RRULE)' : 'Recurrence Settings (RRULE)' }}
+                        </div>
+                        <div class="mb-4">
+                            <el-form-item :label="lang === 'zh' ? '重复频率 (Frequency & Interval)' : 'Repeat Every'" class="!mb-0 w-full">
+                                <div class="flex items-center gap-2 w-full">
+                                    <span class="text-sm font-bold text-slate-600 dark:text-slate-300 whitespace-nowrap">{{ lang === 'zh' ? '每' : 'Every' }}</span>
+                                    <el-input-number v-model="form.repeat.interval" :min="1" controls-position="right" class="!w-24" :disabled="isEdit" />
+                                    <el-select v-model="form.repeat.freq" class="flex-1" :disabled="isEdit">
+                                        <el-option :label="lang === 'zh' ? '日 (Daily)' : 'Daily'" value="daily"></el-option>
+                                        <el-option :label="lang === 'zh' ? '周 (Weekly)' : 'Weekly'" value="weekly"></el-option>
+                                        <el-option :label="lang === 'zh' ? '月 (Monthly)' : 'Monthly'" value="monthly"></el-option>
+                                        <el-option :label="lang === 'zh' ? '年 (Yearly)' : 'Yearly'" value="yearly"></el-option>
                                     </el-select>
-                                </template>
-                            </el-input>
-                        </el-form-item>
-                        <div class="w-px h-8 bg-slate-300 hidden sm:block mb-1"></div>
-                        <el-form-item :label="t('useLunar')" class="!mb-0"><el-switch v-model="form.useLunar"
-                                style="--el-switch-on-color:#2563eb;" :disabled="isEdit"></el-switch></el-form-item>
+                                </div>
+                            </el-form-item>
+                        </div>
+
+                        <!-- 每年可选定月份 -->
+                        <div v-if="form.repeat.freq === 'yearly'" class="mb-4">
+                            <el-form-item :label="lang === 'zh' ? '指定月份' : 'By Month'" class="!mb-0 w-full">
+                                <el-select v-model="form.repeat.bymonth" multiple collapse-tags :max-collapse-tags="5" :placeholder="lang === 'zh' ? '默认为开始月份' : 'Start Month Default'" style="width:100%" :disabled="isEdit">
+                                    <el-option v-for="m in 12" :key="'m'+m" :label="m + (lang === 'zh' ? '月':'')" :value="m"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                        
+                        <!-- 每月或每年可选定触点日 -->
+                        <div v-if="['monthly', 'yearly'].includes(form.repeat.freq)" class="mb-4">
+                            <el-form-item :label="lang === 'zh' ? '指定日期' : 'By Month Day'" class="!mb-0 w-full">
+                                <el-select v-model="form.repeat.bymonthday" multiple clearable collapse-tags :max-collapse-tags="5" :placeholder="lang === 'zh' ? '默认为开始日，如输入 -1 代表最后一天' : 'Start Day Default, e.g. -1 for Last Day'" style="width:100%" filterable allow-create default-first-option :disabled="isEdit">
+                                    <el-option v-for="d in 31" :key="'d'+d" :label="d + (lang === 'zh' ? '日':'')" :value="String(d)"></el-option>
+                                    <el-option :label="lang === 'zh' ? '倒数第1天 (-1)' : 'Last Day (-1)'" :value="'-1'"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+                        
+                        <!-- 每周等可选定周几 -->
+                        <div v-if="['weekly', 'monthly', 'yearly'].includes(form.repeat.freq)" class="mb-4">
+                            <el-form-item :label="lang === 'zh' ? '指定星期' : 'By Week Day'" class="!mb-0 w-full">
+                                <el-select v-model="form.repeat.byweekday" multiple collapse-tags :max-collapse-tags="4" :placeholder="lang === 'zh' ? '不指定 / 默认为开始日的星期' : 'Default to Start Weekday'" style="width:100%" :disabled="isEdit">
+                                    <el-option :label="lang === 'zh' ? '周一' : 'Mon'" :value="1"></el-option>
+                                    <el-option :label="lang === 'zh' ? '周二' : 'Tue'" :value="2"></el-option>
+                                    <el-option :label="lang === 'zh' ? '周三' : 'Wed'" :value="3"></el-option>
+                                    <el-option :label="lang === 'zh' ? '周四' : 'Thu'" :value="4"></el-option>
+                                    <el-option :label="lang === 'zh' ? '周五' : 'Fri'" :value="5"></el-option>
+                                    <el-option :label="lang === 'zh' ? '周六' : 'Sat'" :value="6"></el-option>
+                                    <el-option :label="lang === 'zh' ? '周日' : 'Sun'" :value="0"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+
+                        <!-- 匹配结果位选 (如: 当月最后一个周五) -->
+                        <div v-if="['monthly', 'yearly'].includes(form.repeat.freq)">
+                            <el-form-item :label="lang === 'zh' ? '精准定点 (BySetPos)' : 'By Set Position'" class="!mb-0 w-full">
+                                <el-select v-model="form.repeat.bysetpos" clearable :placeholder="lang === 'zh' ? '输入或选择任意数字 (如 -3 代表倒数第 3 个)' : 'Type or select a number'" style="width:100%" filterable allow-create default-first-option :disabled="isEdit">
+                                    <el-option :label="lang === 'zh' ? '集合内第一个 (1)' : 'First in set (1)'" :value="'1'"></el-option>
+                                    <el-option :label="lang === 'zh' ? '集合内最后一个 (-1)' : 'Last in set (-1)'" :value="'-1'"></el-option>
+                                </el-select>
+                            </el-form-item>
+                        </div>
+
+                        <!-- 重复规则自然语言预览 -->
+                        <div class="mt-4 p-3 bg-indigo-50 dark:bg-slate-800/50 rounded-lg border border-indigo-100 dark:border-slate-700 flex items-center shadow-sm">
+                            <el-icon class="text-indigo-500 mr-2 text-lg"><Calendar /></el-icon>
+                            <span class="text-sm font-medium text-indigo-900 dark:text-indigo-300">
+                                {{ lang === 'zh' ? '规则预览：' : 'Description: ' }}
+                                <span class="font-bold border-b border-indigo-300 dark:border-indigo-600 border-dashed pb-0.5">{{ repeatDescription }}</span>
+                            </span>
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
