@@ -254,14 +254,20 @@ const goCalendarToday = () => { calendarDate.value = new Date(); };
 // 按日期索引的事件映射 { 'YYYY-MM-DD': [item, ...] }
 const calendarEvents = computed(() => {
     const map = {};
+    const defaultCur = settings.value.defaultCurrency || 'CNY';
+    const rates = exchangeRates.value || {};
+    const cvt = (p, c) => (c !== defaultCur && rates[c]) ? p / rates[c] : p;
     const addEvent = (dateStr, item, isProjected = false) => {
         if (!dateStr || !/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return;
         if (!map[dateStr]) map[dateStr] = [];
+        const rawPrice = parseFloat(item.fixedPrice) || 0;
+        const cur = item.currency || defaultCur;
         map[dateStr].push({
             name: item.name,
             type: item.type || 'cycle',
             fixedPrice: item.fixedPrice,
-            currency: item.currency || settings.value.defaultCurrency || 'CNY',
+            currency: cur,
+            convertedPrice: cvt(rawPrice, cur),
             isProjected
         });
     };
@@ -3451,7 +3457,7 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
                                                 <template v-for="(ev, ei) in getCalendarDayEvents(data.date).slice(0, 2)" :key="ei">
                                                     <div :class="['cal-event-bar',
                                                         ev.type === 'repeat' ? 'bar-repeat' : ev.type === 'reset' ? 'bar-reset' : 'bar-cycle'
-                                                    ]">{{ ev.name }}</div>
+                                                    ]"><span class="cal-bar-name">{{ ev.name }}</span><span v-if="ev.isProjected" class="cal-bar-predict-dot"></span></div>
                                                 </template>
                                                 <div v-if="getCalendarDayEvents(data.date).length > 2" class="cal-event-bar bar-more">
                                                     +{{ getCalendarDayEvents(data.date).length - 2 }} {{ lang === 'zh' ? '项' : 'more' }}
@@ -3468,7 +3474,7 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
                                             </div>
                                             <div class="flex items-center gap-3 text-[10px] font-mono mt-1">
                                                 <span class="text-slate-500">{{ getCalendarDayEvents(data.date).length }} {{ lang === 'zh' ? '个项目' : 'items' }}</span>
-                                                <span class="font-bold text-slate-700 dark:text-slate-200">≈ {{ getCalendarDayEvents(data.date).reduce((s, e) => s + (parseFloat(e.fixedPrice) || 0), 0).toFixed(2) }} {{ settings.defaultCurrency || 'CNY' }}</span>
+                                                <span class="font-bold text-slate-700 dark:text-slate-200">≈ {{ getCalendarDayEvents(data.date).reduce((s, e) => s + (e.convertedPrice || 0), 0).toFixed(2) }} {{ settings.defaultCurrency || 'CNY' }}</span>
                                             </div>
                                         </div>
                                         <div v-for="(ev, ei) in getCalendarDayEvents(data.date)" :key="'pop-'+ei"
@@ -3476,8 +3482,9 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
                                             <span :class="['w-2 h-2 rounded-full shrink-0',
                                                 ev.type === 'repeat' ? 'bg-purple-500' : ev.type === 'reset' ? 'bg-orange-500' : 'bg-blue-500'
                                             ]"></span>
-                                            <span class="truncate font-medium text-slate-700 dark:text-slate-200">{{ ev.name }}</span>
-                                            <span v-if="ev.fixedPrice" class="text-[10px] font-mono text-slate-400 whitespace-nowrap">{{ ev.fixedPrice }} {{ ev.currency || settings.defaultCurrency || 'CNY' }}</span>
+                                            <span class="break-all text-slate-700 dark:text-slate-200">{{ ev.name }}</span>
+                                            <span v-if="ev.isProjected" class="text-[9px] px-1 rounded bg-blue-100 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-500/30 whitespace-nowrap">{{ lang === 'zh' ? '预' : 'PRE' }}</span>
+                                            <span v-if="ev.fixedPrice" class="text-[10px] font-mono text-slate-400 whitespace-nowrap">{{ ev.fixedPrice }} {{ ev.currency }}</span>
                                             <span :class="['ml-auto text-[10px] font-mono px-1.5 py-0.5 rounded whitespace-nowrap',
                                                 ev.type === 'repeat' ? 'bg-purple-100 text-purple-700 dark:bg-purple-900/40 dark:text-purple-300'
                                                 : ev.type === 'reset' ? 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300'
@@ -3491,13 +3498,13 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
 
                         <!-- 图例 -->
                         <div class="flex justify-center gap-6 mt-4 pt-3 border-t border-slate-200 dark:border-slate-700">
-                            <div class="flex items-center gap-1.5 text-[10px] font-mono text-slate-500">
+                            <div class="flex items-center gap-1.5 text-xs font-mono text-slate-500">
                                 <span class="w-2 h-2 rounded-full bg-blue-500"></span> {{ t('typeCycle') }}
                             </div>
-                            <div class="flex items-center gap-1.5 text-[10px] font-mono text-slate-500">
+                            <div class="flex items-center gap-1.5 text-xs font-mono text-slate-500">
                                 <span class="w-2 h-2 rounded-full bg-orange-500"></span> {{ t('typeReset') }}
                             </div>
-                            <div class="flex items-center gap-1.5 text-[10px] font-mono text-slate-500">
+                            <div class="flex items-center gap-1.5 text-xs font-mono text-slate-500">
                                 <span class="w-2 h-2 rounded-full bg-purple-500"></span> {{ t('typeRepeat') }}
                             </div>
                         </div>
@@ -4733,7 +4740,7 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
     border-spacing: 0;
 }
 .calendar-view-container .el-calendar-table thead th {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 700;
     font-family: ui-monospace, SFMono-Regular, monospace;
     color: var(--el-text-color-placeholder);
@@ -4780,7 +4787,7 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
 }
 .calendar-view-container .el-calendar-table .el-calendar-day {
     height: auto;
-    min-height: 72px;
+    min-height: 104px; /* Default height matching ~3 events */
     padding: 4px;
 }
 /* 日期单元格内部样式 */
@@ -4790,7 +4797,8 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
     align-items: center;
     gap: 2px;
     padding: 2px 0;
-    min-height: 56px;
+    min-height: 88px;
+    height: 100%;
 }
 .cal-day-cell.is-other-month {
     opacity: 0.35;
@@ -4799,21 +4807,21 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
     color: var(--el-color-primary);
     background: var(--el-color-primary-light-8);
     border-radius: 50%;
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .cal-day-num {
-    font-size: 13px;
+    font-size: 16px;
     font-weight: 700;
     font-family: ui-monospace, SFMono-Regular, monospace;
     line-height: 1;
     color: var(--el-text-color-primary);
 }
 .cal-lunar-text {
-    font-size: 9px;
+    font-size: 11px;
     color: var(--el-text-color-secondary);
     line-height: 1;
     white-space: nowrap;
@@ -4822,22 +4830,39 @@ const openLink = (url) => { if (url) window.open(url, '_blank'); };
 .cal-event-bars {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 3px;
     width: 100%;
     margin-top: 2px;
-    padding: 0 2px;
+    padding: 0 4px;
 }
 .cal-event-bar {
-    font-size: 9px;
+    font-size: 11px;
     font-family: ui-monospace, SFMono-Regular, monospace;
     font-weight: 600;
-    line-height: 1.2;
-    padding: 1px 4px 1px 6px;
+    line-height: 1.3;
+    padding: 2px 4px 2px 6px;
     border-left: 3px solid;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     border-radius: 0 2px 2px 0;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+.cal-bar-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    min-width: 0;
+    flex: 1;
+    max-width: calc(100% - 10px);
+}
+.cal-bar-predict-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.5;
+    margin-left: auto;
+    flex-shrink: 0;
 }
 .cal-event-bar.bar-cycle {
     border-left-color: #3b82f6;
